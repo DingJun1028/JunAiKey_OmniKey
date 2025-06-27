@@ -1,0 +1,30 @@
+```json
+{
+  "name": "@junai/sdk",
+  "version": "0.1.0",
+  "description": "SDK for interacting with Jun.Ai.Key (The OmniKey) system",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "junai",
+    "omnikey",
+    "sdk",
+    "api",
+    "client"
+  ],
+  "author": "Your Name/Organization",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.43.4",
+    "axios": "^1.7.2"
+    // Add other dependencies if the SDK needs them (e.g., specific crypto libs)
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
+}
+```

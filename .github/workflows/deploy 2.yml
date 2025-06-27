@@ -1,0 +1,94 @@
+```yaml
+# .github/workflows/deploy.yml
+name: Supabase Auto-Deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'supabase/**' # Trigger on changes in the supabase directory
+      - '.env*' # Trigger on changes to environment files (e.g., .env.example)
+      - 'junai-key-cli/**' # Trigger on changes to the CLI package
+      - 'packages/@junai/sdk/**' # Trigger on changes to the SDK package
+      - '.github/workflows/deploy.yml' # Trigger on changes to the workflow file itself
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18 # Or your preferred Node.js version
+
+      - name: Install dependencies
+        # Install root dependencies and dependencies in packages/
+        run: npm ci # Use npm ci for clean install in CI environments
+
+      # Optional: Build SDK and CLI packages
+      - name: Build Packages
+        run: |
+          npm run build --workspace=packages/@junai/sdk
+          npm run build --workspace=junai-key-cli
+        # Ensure build scripts are defined in package.json for each package
+
+      # Optional: Run tests before deploying
+      # - name: Run tests
+      #   run: npm test
+
+      - name: Install Supabase CLI
+        run: npm install -g supabase-cli # Use the official package name
+
+      - name: Link Supabase Project
+        run: supabase link --project-ref ${{ secrets.SUPABASE_PROJECT_ID }}
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+
+      - name: Deploy Supabase Migrations
+        run: supabase db push # Applies pending migrations
+
+      - name: Deploy Supabase Edge Functions
+        # Assumes your functions are in the 'supabase/functions' directory
+        # Pass necessary secrets as environment variables during deploy
+        # These secrets must be added to your GitHub Repository Secrets
+        # And also added to your Supabase project settings under Functions -> Secrets
+        run: |
+          # List all functions to deploy, or deploy all in the directory
+          # Example: Deploying all functions in supabase/functions
+          supabase functions deploy --project-ref ${{ secrets.SUPABASE_PROJECT_ID }} --no-verify-jwt \
+          --env-file .env.edge_functions # Use a dedicated env file for edge functions secrets
+
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          # Secrets needed by the deploy command itself (passed via --env-file to the function runtime)
+          # SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          # SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          # SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          # LITELLM_API_ENDPOINT: ${{ secrets.LITELLM_API_ENDPOINT }}
+          # LITELLM_MODEL: ${{ secrets.LITELLM_MODEL }}
+          # BOOST_SPACE_WEBHOOK_URL: ${{ secrets.BOOST_SPACE_WEBHOOK_URL }}
+          # BOOST_SPACE_API_KEY: ${{ secrets.BOOST_SPACE_API_KEY }}
+          # OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          # NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+          # Add other secrets needed by Edge Functions here
+
+      # Optional: Publish SDK to NPM
+      # - name: Publish SDK to NPM
+      #   if: github.ref == 'refs/heads/main' # Publish only on main branch pushes
+      #   run: |
+      #     cd packages/@junai/sdk
+      #     npm publish --access public
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # NPM_TOKEN secret is required
+
+      # Optional: Deploy Frontend to GitHub Pages or Vercel/Netlify
+      # - name: Deploy Frontend
+      #   if: github.ref == 'refs/heads/main'
+      #   uses: peaceiris/actions-gh-pages@v3
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     publish_dir: ./dist # Directory where Vite builds the app
+```
