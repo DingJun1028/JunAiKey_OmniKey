@@ -1,0 +1,36 @@
+node_modules/
+dist/
+.env
+.venv/
+venv/
+.DS_Store
+.history/
+coverage/
+.vscode/*.code-workspace
+*.log
+npm-debug.log
+.idea/
+*.tsbuildinfo
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# VS Code
+.vscode/
+
+# 環境/依賴
+.env
+.venv/
+venv/
+
+# 測試/覆蓋率
+htmlcov/
+.coverage
+.tox/
+
+# macOS/Windows/Linux
+.DS_Store
+Thumbs.db

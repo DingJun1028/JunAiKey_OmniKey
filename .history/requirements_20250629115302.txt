@@ -1,0 +1,5 @@
+black
+flake8
+isortgit add .
+git commit -m "fix: all JSON/package/requirements clean, resolve all CI/CD and npm issues"
+git push

@@ -1,0 +1,7 @@
+black
+flake8
+isort
+npm install @octokit/core
+git add backend/package.json backend/package-lock.json backend/src/services/integrationService.ts
+git commit -m "feat: GitHub API 整合、日誌、錯誤處理、快取"
+git push

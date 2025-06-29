@@ -1,0 +1,50 @@
+<svg width="800" height="420" viewBox="0 0 800 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .label { font-family: 'Segoe UI', Arial, sans-serif; font-size: 18px; font-weight: bold; }
+    .desc { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; fill: #444; }
+    .engine { font-family: 'Segoe UI', Arial, sans-serif; font-size: 12px; font-weight: bold; }
+    .icon { font-size: 24px; }
+  </style>
+  <!-- Infinity Loop Path -->
+  <path d="M 200 210 Q 100 60 400 60 Q 700 60 600 210 Q 700 360 400 360 Q 100 360 200 210 Z"
+        stroke="#888" stroke-width="8" fill="none"/>
+  <!-- Six Segments (colored dots) -->
+  <circle cx="400" cy="60" r="22" fill="#e53935"/>
+  <circle cx="600" cy="210" r="22" fill="#8e24aa"/>
+  <circle cx="400" cy="360" r="22" fill="#3949ab"/>
+  <circle cx="200" cy="210" r="22" fill="#fbc02d"/>
+  <circle cx="270" cy="135" r="22" fill="#212121"/>
+  <circle cx="530" cy="135" r="22" fill="#43a047"/>
+  <!-- Segment Labels -->
+  <text x="400" y="55" text-anchor="middle" class="label" fill="#fff">① 覺識式</text>
+  <text x="600" y="205" text-anchor="middle" class="label" fill="#fff">② 解構式</text>
+  <text x="400" y="355" text-anchor="middle" class="label" fill="#fff">③ 策演式</text>
+  <text x="200" y="205" text-anchor="middle" class="label" fill="#fff">④ 貫通式</text>
+  <text x="270" y="130" text-anchor="middle" class="label" fill="#fff">⑤ 迴響式</text>
+  <text x="530" y="130" text-anchor="middle" class="label" fill="#fff">⑥ 鍛智式</text>
+  <!-- English Labels -->
+  <text x="400" y="80" text-anchor="middle" class="desc">Awareness</text>
+  <text x="600" y="230" text-anchor="middle" class="desc">Semantic</text>
+  <text x="400" y="380" text-anchor="middle" class="desc">Strategy</text>
+  <text x="200" y="230" text-anchor="middle" class="desc">Flow</text>
+  <text x="270" y="155" text-anchor="middle" class="desc">Feedback</text>
+  <text x="530" y="155" text-anchor="middle" class="desc">Learning</text>
+  <!-- Icons -->
+  <text x="400" y="70" text-anchor="middle" class="icon">🎙️</text>
+  <text x="600" y="215" text-anchor="middle" class="icon">🧠</text>
+  <text x="400" y="370" text-anchor="middle" class="icon">🚩</text>
+  <text x="200" y="220" text-anchor="middle" class="icon">🔄</text>
+  <text x="270" y="145" text-anchor="middle" class="icon">📊</text>
+  <text x="530" y="145" text-anchor="middle" class="icon">⚙️</text>
+  <!-- AI Engines -->
+  <text x="420" y="40" class="engine" fill="#e53935">Chat X</text>
+  <text x="640" y="210" class="engine" fill="#8e24aa">Pollinations.ai</text>
+  <text x="420" y="390" class="engine" fill="#3949ab">Straico Ai</text>
+  <text x="160" y="210" class="engine" fill="#fbc02d">OpenAI</text>
+  <text x="250" y="110" class="engine" fill="#212121">Boost Webhook</text>
+  <text x="570" y="110" class="engine" fill="#43a047">Notion/Capacities</text>
+  <!-- Title -->
+  <text x="400" y="25" text-anchor="middle" font-size="28" font-family="Segoe UI" fill="#222" font-weight="bold">
+    JunAiKey ∞ Infinity Loop
+  </text>
+</svg>

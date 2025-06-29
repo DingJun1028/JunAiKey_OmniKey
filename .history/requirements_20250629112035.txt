@@ -1,0 +1,3 @@
+blacknpm install vite @types/vite --save-devpip install -r requirements.txt
+flake8
+isort

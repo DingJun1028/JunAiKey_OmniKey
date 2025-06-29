@@ -1,0 +1,28 @@
+name: Boostspace/Capacities Sync API CI
+
+on:
+  push:
+    paths:
+      - 'src/modules/sync/**'
+      - 'pages/api/boostspace-sync.ts'
+      - 'pages/api/capacities-compat.ts'
+      - '.github/workflows/ci-sync-test.yml'
+  pull_request:
+    paths:
+      - 'src/modules/sync/**'
+      - 'pages/api/boostspace-sync.ts'
+      - 'pages/api/capacities-compat.ts'
+
+jobs:
+  test-sync-services:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+      - name: Install dependencies
+        run: npm install
+      - name: Run Boostspace/Capacities sync service tests
+        run: npm test -- src/modules/sync/__tests__

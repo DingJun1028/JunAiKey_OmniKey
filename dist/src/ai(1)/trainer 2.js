@@ -1,0 +1,161 @@
+"use strict";
+`` `typescript
+// src/ai/trainer.ts
+// AI Trainer - Handles data preparation and triggers model training/optimization.\\\
+\\\nimport { SystemContext, UserFeedback, KnowledgeRecord, UserAction, EvolutionaryInsight } from '../interfaces';\\\n// import { WisdomSecretArt } from '../core/wisdom/WisdomSecretArt'; // Access via requestAgent\\\n// import { EvolutionEngine } from '../core/evolution/EvolutionEngine'; // Access via requestAgent\\\n// import { AnalyticsService } from '../../modules/analytics/AnalyticsService'; // Access via requestAgent\\\nimport { BaseAgent, AgentMessage, AgentResponse } from '../agents/BaseAgent'; // Import BaseAgent types\\\n\\\n// --- Modified: Extend BaseAgent ---\\\nexport class AITrainer extends BaseAgent { // Extend BaseAgent\\\n    private context: SystemContext;\\\n\\\n    constructor(context: SystemContext) {\\\\\\\n        // --- Modified: Call super constructor with agent name ---\\\\\\\n        super('ai_trainer', context); // Call BaseAgent constructor with agent name 'ai_trainer'\\\\\\\n        // --- End Modified ---\\\\\\\n        this.context = context;\\\\\\\n        console.log('AITrainer initialized.');\\\\\\\n    }\\\\\\n\\\\\\n    /**\\\\\\n     * Handles messages directed to the AI Trainer Agent.\\\\\\n     * @param message The message to handle. Expected type: 'prepare_training_data' or 'trigger_training'.\\\\\\n     * @returns Promise<AgentResponse> The response containing the result or error.\\\\\\n     */\\\\\\n    protected async handleMessage(message: AgentMessage): Promise<AgentResponse> {\\\\\\\\\\\\\\n        console.log(`[AITrainer];
+Handling;
+message: $;
+{
+    message.type;
+}
+(Correlation);
+ID: $;
+{
+    message.correlationId || 'N/A';
+}
+`);\\\\\\\\\\\\\\n\\\\\\\\\\\\n        const userId = this.context.currentUser?.id;\\\\\\\\\\\\\\n        if (!userId) {\\\\\\\\\\\\\\n             return { success: false, error: 'User not authenticated.' };\\\\\\\\\\\\\\n        }\\\\\\\\\\\\n\\\\\\\\\\\\n        try {\\\\\\\\\\\\\\n            let result: any;\\\\\\\\\\\\\\n            switch (message.type) {\\\\\\\\\\\\\\n                case 'prepare_training_data':\\\\\\\\\\\\\\n                    // Payload: { timeframe?: 'day' | 'week' | 'month' | 'all' }\\\\\\\\\\\\\\n                    // Delegate to prepareTrainingData method\\\\\\\\\\\\\\n                    result = await this.prepareTrainingData(userId, message.payload?.timeframe);\\\\\\\\\\\\\\n                    return { success: true, data: result };\\\\\\\\\\\\\\n\\\\\\\\\\\\n                case 'trigger_training':\\\\\\\\\\\\\\n                    // Payload: { trainingData: any, modelType: string }\\\\\\\\\\\\\\n                    if (!message.payload?.trainingData || !message.payload?.modelType) {\\\\\\\\\\\\\\n                         throw new Error('trainingData and modelType are required to trigger training.');\\\\\\\\\\\\\\n                    }\\\\\\\\\\\\\\n                    // Delegate to triggerTraining method\\\\\\\\\\\\\\n                    result = await this.triggerTraining(message.payload.trainingData, userId, message.payload.modelType);\\\\\\\\\\\\\\n                    return { success: true, data: result };\\\\\\\\\\\\\\n\\\\\\\\\\\\n                // TODO: Add cases for other training-related operations\\\\\\\\\\\\\\n\\\\\\\\\\\\n                default:\\\\\\\\\\\\\\n                    console.warn(`[AITrainer];
+Unknown;
+message;
+type: $;
+{
+    message.type;
+}
+`);\\\\\\\\\\\\\\\n                    return { success: false, error: `;
+Unknown;
+message;
+type;
+for (AITrainer; ; )
+    : $;
+{
+    message.type;
+}
+` };\\\\\\\\\\\\\\\n            }\\\\\\\\\\\\n        } catch (error: any) {\\\\\\\\\\\\\\n            console.error(`[AITrainer];
+Error;
+handling;
+message;
+$;
+{
+    message.type;
+}
+`, error);\\\\\\\\\\\\\\n            return { success: false, error: error.message || 'An error occurred in AITrainer.' };\\\\\\\\\\\\\\n        }\\\\\\\\\\\\n    }\\\\\\\\\\\\n\\\\\\\\\\\\n    /**\\\\\\\\\\\\n     * Prepares data for AI model training or optimization (e.g., fine-tuning, prompt optimization).\\\\\\\\\\\\n     * Collects relevant data (feedback, successful/failed actions, insights) and formats it.\\\\\\\\\\\\n     * @param userId The user ID whose data to use. Required.\\\\\\\\\\\\\\n     * @param timeframe Optional timeframe for data collection. Defaults to 'all'.\\\\\\\\\\\\n     * @returns Promise<any> Prepared training data.\\\\\\\\\\\\\\n     */\\\\\\\\\\\\n    async prepareTrainingData(userId: string, timeframe: 'day' | 'week' | 'month' | 'all' = 'all'): Promise<any> {\\\\\\\\\\\\\\n        console.log(`[AITrainer];
+Preparing;
+training;
+data;
+for (user; ; )
+    : $;
+{
+    userId;
+}
+timeframe: $;
+{
+    timeframe;
+}
+`);\\\\\\\\\\\\\\n        this.context.loggingService?.logInfo(`;
+Preparing;
+training;
+data;
+for (user; $; { userId } `, { userId, timeframe });\\\\\\\\\\\\\\n\\\\\\\\\\\\n        if (!userId) {\\\\\\\\\\\\\\n            console.error('[AITrainer] Cannot prepare training data: User ID is required.');\\\\\\\\\\\\\\n            this.context.loggingService?.logError('Cannot prepare training data: User ID is required.');\\\\\\\\\\\\\\n            throw new Error('User ID is required to prepare training data.');\\\\\\\\\\\\\\n        }\\\\\\\\\\\\n\\\\\\\\\\\\n        // --- 1. Collect Data (Delegate to AnalyticsAgent and AuthorityForgingAgent) ---\\\\\\\\\\\\\\n        console.log('[AITrainer] Collecting data...');\\\\\\\\\\\\\\n\\\\\\\\\\\\n        let feedbackData: UserFeedback[] = [];\\\\\\\\\\\\\\n        let userActions: UserAction[] = [];\\\\\\\\\\\\\\n        let tasks: any[] = []; // Simplified task data\\\\\\\\\\\\\\n        let insights: EvolutionaryInsight[] = [];\\\\\\\\\\\\\\n\\\\\\\\\\\\n        try {\\\\\\\\\\\\\\n            // --- Modified: Delegate data collection to EvolutionAgent and AnalyticsAgent ---\\\\\\\\\\\\\\n            if (this.context.agentFactory?.getAgent('evolution')) {\\\\\\\\\\\\\\n                 console.log('[AITrainer] Requesting recent feedback from EvolutionAgent...');\\\\\\\\\\\\\\n                 const feedbackResponse = await this.requestAgent(\\\\\\n                     'evolution', // Target the EvolutionAgent\\\\\\\\\\\\n                     'get_recent_feedback', // Message type for EvolutionAgent\\\\\\\\\\\\\\n                     { limit: 1000 }, // Pass limit\\\\\\\\\\\\\\n                     10000 // Timeout\\\\\\\\\\\\\\n                 );\\\\\\\\\\\\\\n                 if (feedbackResponse.success && Array.isArray(feedbackResponse.data)) {\\\\\\\\\\\\\\n                     feedbackData = feedbackResponse.data;\\\\\\\\\\\\\\n                 } else {\\\\\\\\\\\\\\n                     console.error('[AITrainer] Error fetching feedback from EvolutionAgent:', feedbackResponse.error);\\\\\\\\\\\\\\n                 }\\\\\\\\\\\\n            } else {\\\\\\\\\\\\\\n                 console.warn('[AITrainer] EvolutionAgent not available for feedback.');\\\\\\\\\\\\\\n            }\\\\\\\\\\\\n\\\\\\\\\\\\n            if (this.context.agentFactory?.getAgent('authority_forging')) {\\\\\\\\\\\\\\n                 console.log('[AITrainer] Requesting recent actions from AuthorityForgingAgent...');\\\\\\\\\\\\\\n                 const actionsResponse = await this.requestAgent(\\\\\\n                     'authority_forging', // Target the AuthorityForgingAgent\\\\\\\\\\\\n                     'get_recent_actions', // Message type for AuthorityForgingAgent\\\\\\\\\\\\\\n                     { limit: 1000 }, // Pass limit\\\\\\\\\\\\\\n                     10000 // Timeout\\\\\\\\\\\\\\n                 );\\\\\\\\\\\\\\n                 if (actionsResponse.success && Array.isArray(actionsResponse.data)) {\\\\\\\\\\\\\\n                     userActions = actionsResponse.data;\\\\\\\\\\\\\\n                 } else {\\\\\\\\\\\\\\n                     console.error('[AITrainer] Error fetching actions from AuthorityForgingAgent:', actionsResponse.error);\\\\\\\\\\\\\\n                 }\\\\\\\\\\\\n            } else {\\\\\\\\\\\\\\n                 console.warn('[AITrainer] AuthorityForgingAgent not available for actions.');\\\\\\\\\\\\\\\n            }\\\\\\\\\\\\n\\\\\\\\\\\\n            if (this.context.agentFactory?.getAgent('analytics')) {\\\\\\\\\\\\\\n                 console.log('[AITrainer] Requesting data for evolution from AnalyticsAgent...');\\\\\\\\\\\\\\n                 const analyticsResponse = await this.requestAgent(\\\\\\n                     'analytics', // Target the AnalyticsAgent\\\\\\n                     'get_data_for_evolution', // Message type for AnalyticsAgent\\\\\\\n                     { timeframe: timeframe }, // Pass timeframe\\\\\\\n                     15000 // Timeout\\\\\\\n                 );\\\\\\\n                 if (analyticsResponse.success && analyticsResponse.data) {\\\\\\\n                     // AnalyticsAgent returns { recentUserActions, failedTasks, recentSystemEvents, recentKnowledgeRecords, recentFeedback }\\\\\\\n                     // We already fetched actions and feedback, but this might provide more structured data or other types\\\\\\\n                     // For MVP, let's just use it to get failedTasks and insights (assuming AnalyticsAgent fetches insights too)\\\\\\n                     tasks = analyticsResponse.data.failedTasks || [];\\\\\\\n                     // Assuming AnalyticsAgent also fetches insights for evolution data\\\\\\\n                     // insights = analyticsResponse.data.recentInsights || []; // Hypothetical field\\\\\\\n                 } else {\\\\\\\n                     console.error('[AITrainer] Error fetching data for evolution from AnalyticsAgent:', analyticsResponse.error);\\\\\\\n                 }\\\\\\n            } else {\\\\\\\n                 console.warn('[AITrainer] AnalyticsAgent not available for evolution data.');\\\\\\\n            }\\\\\\n\\\\\\n            // Fetch recent insights separately if AnalyticsAgent doesn't provide them\\\\\\\n            if (this.context.agentFactory?.getAgent('evolution') && insights.length === 0) { // Only fetch if not already fetched via AnalyticsAgent\\\\\\\n                 console.log('[AITrainer] Requesting recent insights from EvolutionAgent...');\\\\\\\n                 const insightsResponse = await this.requestAgent(\\\\\\n                     'evolution', // Target the EvolutionAgent\\\\\\n                     'get_insights', // Message type for EvolutionAgent\\\\\\\n                     { status: undefined, limit: 100 }, // Get recent insights regardless of status\\\\\\\n                     10000 // Timeout\\\\\\\n                 );\\\\\\\n                 if (insightsResponse.success && Array.isArray(insightsResponse.data)) {\\\\\\\n                     insights = insightsResponse.data;\\\\\\\n                 } else {\\\\\\\n                     console.error('[AITrainer] Error fetching insights from EvolutionAgent:', insightsResponse.error);\\\\\\\n                 }\\\\\\n            }\\\\\\n            // --- End Modified ---\\\\\\n\\\\\\n\\\\\\n            // TODO: Fetch other relevant data (e.g., specific task/flow execution logs, knowledge records related to feedback)\\\\\\n\\\\\\n            console.log(`[AITrainer])
+    Data;
+collection;
+complete.Feedback;
+$;
+{
+    feedbackData.length;
+}
+Actions: $;
+{
+    userActions.length;
+}
+Tasks: $;
+{
+    tasks.length;
+}
+Insights: $;
+{
+    insights.length;
+}
+`);\\\\\\\n            this.context.loggingService?.logInfo(`;
+Training;
+data;
+collection;
+complete. `, { userId, feedbackCount: feedbackData.length, actionCount: userActions.length, taskCount: tasks.length, insightCount: insights.length });\\\\\\\n\\\\\\n        } catch (fetchError: any) {\\\\\\\n            console.error('[AITrainer] Error collecting data for training:', fetchError.message);\\\\\\\n            this.context.loggingService?.logError('Error collecting data for training', { userId, timeframe, error: fetchError.message });\\\\\\\n            throw new Error(`;
+Failed;
+to;
+collect;
+data;
+for (training; ; )
+    : $;
+{
+    fetchError.message;
+}
+`);\\\\\\\n        }\\\\\\n\\\\\\n\\\\\\n        // --- 2. Format Data for Training/Optimization ---\\\\\\n        // This is the most complex part and depends heavily on the specific training goal\\\\\\\n        // (e.g., improving intent analysis, generating better task steps, optimizing prompts).\\\\\\\n        // Data needs to be transformed into pairs of inputs and desired outputs, or sequences of actions.\\\n\n        let formattedData: any = {};\n\n        // Example: Formatting data for Prompt Optimization based on incorrect feedback\n        const incorrectFeedback = feedbackData.filter(f => f.feedback_type === 'incorrect');\n        if (incorrectFeedback.length > 0) {\n             console.log(`[AITrainer];
+Formatting;
+$;
+{
+    incorrectFeedback.length;
+}
+incorrect;
+feedback;
+entries;
+for (prompt; optimization. `);\n             // Format: [{ input: { question: string, original_answer: string, user_comments?: string }, output: { suggested_correction: string, tags?: string[] } }]\n             // This requires WisdomSecretArt to generate the suggested correction.\n             // For MVP, simulate the formatting.\n             formattedData.promptOptimization = incorrectFeedback.map(feedback => ({\n                 input: {\n                     question: feedback.record?.question || 'N/A',\n                     original_answer: feedback.record?.answer || 'N/A',\n                     user_comments: feedback.comments,\n                 },\n                 // The desired output (correction) is complex to generate without AI.\n                 // This is where the learning loop closes: AI analyzes feedback -> suggests correction -> user applies -> data is used for training.\n                 // For MVP, we'll just format the input part and indicate the need for a corrected output.\n                 // A real system would need a source of \"correct\" outputs.\n                 // Maybe the user's manual correction becomes the \"correct\" output data?\n                 // This requires tracking user edits after incorrect feedback.\n                 // For MVP, just format the feedback data.\n                 feedbackData: feedback, // Include original feedback\n                 recordData: feedback.record, // Include original record\n                 // TODO: Add the user's subsequent correction if available\n                 // userCorrection: findUserCorrection(feedback.record_id, userId), // Hypothetical function\n             }));\n        }\n\n        // Example: Formatting data for Action Sequence Prediction based on user actions\n        // Need to get frequent sequences from EvolutionEngine\n        if (this.context.agentFactory?.getAgent('evolution')) {\n             try {\n                 const sequencesResponse = await this.requestAgent(\n                     'evolution', // Target EvolutionAgent\n                     'get_frequent_action_sequences', // Hypothetical message type\n                     { userId: userId, timeframe: timeframe },\n                     10000\n                 );\n                 if (sequencesResponse.success && Array.isArray(sequencesResponse.data)) {\n                     const frequentSequences = sequencesResponse.data;\n                     if (frequentSequences.length > 0) {\n                          console.log(`[AITrainer]; Formatting)
+    $;
+{
+    frequentSequences.length;
+}
+action;
+sequences. `);\n                          formattedData.actionSequencePrediction = frequentSequences.map((seq: any) => ({\n                              input: { sequence_prefix: seq.sequence.slice(0, -1) }, // Sequence except the last one\n                              output: { next_action_suggestion: seq.sequence[seq.sequence.length - 1] }, // The last action in the sequence\n                              count: seq.count, // Include frequency\n                          }));\n                     }\n                 } else {\n                     console.error('[AITrainer] Error fetching action sequences from EvolutionAgent:', sequencesResponse.error);\n                 }\n             } catch (err: any) {\n                 console.error('[AITrainer] Error fetching action sequences from EvolutionAgent:', err);\n             }\n        } else {\n             console.warn('[AITrainer] EvolutionAgent not available for action sequences.');\n        }\n\n\n        // TODO: Format data for other training goals (e.g., Task Step Generation, Intent Mapping)\n\n        console.log('[AITrainer] Training data preparation complete.', formattedData);\n        this.context.loggingService?.logInfo('Training data preparation complete.', { userId, formattedDataTypes: Object.keys(formattedData) });\n\n        return formattedData;\n    }\n\n    /**\n     * Triggers the AI model training or optimization process.\n     * This is a placeholder for interacting with an external training service or local training code.\n     * @param trainingData The prepared training data. Required.\n     * @param userId The user ID. Required.\n     * @param modelType The type of model to train/optimize (e.g., 'intent_analysis', 'prompt_generation'). Required.\n     * @returns Promise<any> The result of the training process (e.g., model version, evaluation metrics).\n     */\n    async triggerTraining(trainingData: any, userId: string, modelType: string): Promise<any> {\n        console.log(`[AITrainer];
+Triggering;
+training;
+for (model; type; )
+    : $;
+{
+    modelType;
+}
+for (user; ; )
+    : $;
+{
+    userId;
+}
+`);\n        this.context.loggingService?.logInfo(`;
+Triggering;
+training;
+for (model; type; $) {
+    modelType;
+}
+`, { userId, modelType, dataSize: JSON.stringify(trainingData).length });\n\n        if (!userId || !modelType || !trainingData) {\n            console.error('[AITrainer] Cannot trigger training: User ID, model type, and data are required.');\n            this.context.loggingService?.logError('Cannot trigger training: Missing required fields.', { userId, modelType });\n            throw new Error('User ID, model type, and data are required to trigger training.');\n        }\n\n        // --- Simulate Triggering Training ---\n        // In a real system, this would involve:\n        // 1. Sending the prepared data to an external AI platform (e.g., OpenAI Fine-tuning API, custom training service).\n        // 2. Using a local training framework (e.g., TensorFlow.js, PyTorch in a backend service).\n        // 3. Monitoring the training process.\n        // 4. Evaluating the trained model.\n        // 5. Deploying the new model or updating the system to use the optimized prompts/rules.\n\n        console.log(`[AITrainer];
+Simulating;
+training;
+process;
+for (model; type; )
+    : $;
+{
+    modelType;
+}
+`);\n        // Simulate training time\n        await new Promise(resolve => setTimeout(resolve, 10000)); // Simulate a longer training time\n\n        // Simulate training result\n        const success = Math.random() > 0.2; // 80% chance of simulated success\n        const resultStatus = success ? 'completed' : 'failed';\n        const resultMessage = success ? `;
+Simulated;
+training;
+completed;
+successfully;
+for ($; { modelType }. ` : `; Simulated)
+    training;
+failed;
+for ($; { modelType }. `;\n        const metrics = success ? { accuracy: 0.85 + Math.random() * 0.1, loss: 0.1 + Math.random() * 0.1 } : undefined; // Simulated metrics\n\n        const trainingResult = {\n            status: resultStatus,\n            message: resultMessage,\n            modelType: modelType,\n            timestamp: new Date().toISOString(),\n            metrics: metrics,\n            // Add other details like model version, training duration\n        };\n\n        console.log(`[AITrainer]; Simulated)
+    training;
+complete;
+for (model; type; )
+    : $;
+{
+    modelType;
+}
+Status: $;
+{
+    resultStatus;
+}
+`);\n        this.context.loggingService?.logInfo(`;
+Simulated;
+training;
+complete;
+for (model; type; $) {
+    modelType;
+}
+`, { userId, modelType, status: resultStatus });\n\n        // TODO: Publish an event when training is complete (success or failure)\n        // this.context.eventBus?.publish('ai_training_completed', { userId, modelType, result: trainingResult }, userId);\n\n        if (!success) {\n            throw new Error(resultMessage);\n        }\n\n        return trainingResult;\n    }\n\n    // TODO: Implement methods for continuous learning (e.g., triggered by new feedback or data).\n    // TODO: Implement methods for model evaluation and deployment.\n    // TODO: This module is part of the Wisdom Precipitation (\u667a\u6167\u6c89\u6fb1) pillar and the Evolution Cycle (\u7120\u9650\u9032\u5316\u5faa\u74b0).\n}\n` ``;

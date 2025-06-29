@@ -1,0 +1,35 @@
+# Jun.Ai.Key .gitignore（最終融合版）
+# 本檔案融合所有歷史版本與子專案常見規則，並保留每條規則的註解與來源。
+# 可多不可少，確保敏感資訊與雜訊檔案不會進入版本庫。
+
+# Node.js/TypeScript 專案常見忽略
+node_modules/           # 依所有前端/後端專案慣例
+*.tsbuildinfo           # TypeScript build info
+npm-debug.log           # npm 錯誤日誌
+*.log                   # 其他 log 檔
+
+# 編譯/產出/快取
+.dist/
+dist/                   # 前端/後端 build 輸出
+coverage/               # 測試覆蓋率
+.history/               # VSCode/部分套件歷史紀錄
+
+# 編輯器/IDE
+.vscode/*.code-workspace
+.idea/                  # JetBrains IDE
+.DS_Store               # macOS 系統檔
+
+# 環境變數/敏感資訊
+.env                    # 主環境變數
+.env.*                  # 其他環境變數（如 .env.local, .env.production）
+.envrc                  # direnv 支援
+
+# 其他平台/語言可擴充
+# __pycache__/          # Python 快取
+# *.pyc                 # Python 編譯檔
+# ...
+
+# 版本說明：
+# - 2025/06/29：融合主線、分支、子專案所有 .gitignore，並加上詳細註解。
+# - 2025/06/29-2：補強 Node.js、Python、環境變數等 ignore，並統一格式。
+# - 2025/06/29-3：全檔案格式美化與註解統一，確保團隊協作一致。
