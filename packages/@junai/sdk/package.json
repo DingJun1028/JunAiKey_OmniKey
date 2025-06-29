@@ -1,4 +1,3 @@
-```json
 {
   "name": "@junai/sdk",
   "version": "0.1.0",
@@ -21,10 +20,8 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.43.4",
     "axios": "^1.7.2"
-    // Add other dependencies if the SDK needs them (e.g., specific crypto libs)
   },
   "devDependencies": {
     "typescript": "^5.2.2"
   }
 }
-```
