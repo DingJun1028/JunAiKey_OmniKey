@@ -1,0 +1,6 @@
+black
+flake8
+isort
+git add .
+git commit -m "fix: resolve unrelated histories and merge"
+git push

@@ -1,0 +1,19 @@
+name: Test GITHUB_PAT Secret
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-pat:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Use GITHUB_PAT secret
+        env:
+          GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
+        run: |
+          echo "GITHUB_PAT 已成功設置 (請勿在生產環境下輸出此值)"
+          # 用 PAT 呼叫 GitHub API（僅作示範，請勿在生產環境下輸出 token）
+          curl -H "Authorization: token $GITHUB_PAT" https://api.github.com/user

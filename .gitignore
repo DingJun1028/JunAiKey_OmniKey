@@ -1,4 +1,5 @@
 node_modules/
+<<<<<<< HEAD
 dist/
 .env
 .DS_Store
@@ -9,3 +10,6 @@ coverage/
 npm-debug.log
 .idea/
 *.tsbuildinfo
+=======
+.env
+>>>>>>> 1adcf1471b8f063f97d56411669d63dcb06aa707
