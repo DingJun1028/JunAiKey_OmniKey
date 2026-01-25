@@ -16,7 +16,7 @@
     "@supabase/supabase-js": "^2.43.4",
     "axios": "^1.7.2",
     "dagre": "^0.8.5",
-    "express": "^4.19.2",
+    "express": "^4.22.0",
     "js-yaml": "^4.1.0",
     "localforage": "^1.10.0",
     "lucide-react": "^0.390.0",
