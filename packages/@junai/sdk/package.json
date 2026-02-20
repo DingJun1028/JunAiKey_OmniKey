@@ -18,7 +18,7 @@
   "license": "MIT",
   "dependencies": {
     "@supabase/supabase-js": "^2.43.4",
-    "axios": "^1.13.2"
+    "axios": "^1.13.5"
   },
   "devDependencies": {
     "typescript": "^5.9.3"
